@@ -2,7 +2,9 @@
 * { box-sizing: border-box; }
 html, body { margin: 0; height: 100%; background: var(--bg); color: var(--text); font: 13px/1.4 system-ui, "Segoe UI", Roboto, sans-serif; overflow: hidden; }
 
-#stage { position: absolute; left: 0; top: 0; }
+#stage { position: absolute; left: 0; top: 0; overflow: hidden; background: var(--bg); }
+#ambient { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: blur(26px) brightness(0.55) saturate(1.25); transform: scale(1.2); }
+#pic { position: absolute; box-shadow: 0 0 40px rgba(0, 0, 0, 0.45); }
 #gl { width: 100%; height: 100%; display: block; }
 #handles { position: absolute; inset: 0; }
 

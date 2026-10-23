@@ -235,9 +235,13 @@
     const availW = Math.max(200, window.innerWidth - panelW), availH = window.innerHeight;
     let cssW = availW, cssH = availW / ASPECT;
     if (cssH > availH) { cssH = availH; cssW = availH * ASPECT; }
-    const stage = $('stage');
-    stage.style.width = Math.floor(cssW) + 'px';
-    stage.style.height = Math.floor(cssH) + 'px';
+    $('stage').style.width = Math.floor(availW) + 'px';
+    $('stage').style.height = Math.floor(availH) + 'px';
+    const pic = $('pic');
+    pic.style.width = Math.floor(cssW) + 'px';
+    pic.style.height = Math.floor(cssH) + 'px';
+    pic.style.left = Math.floor((availW - cssW) / 2) + 'px';
+    pic.style.top = Math.floor((availH - cssH) / 2) + 'px';
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     resizeTargets(Math.min(2400, Math.round(cssW * dpr * params.scale)));
     positionHandles();
@@ -326,7 +330,7 @@
       });
       h.addEventListener('pointermove', (ev) => {
         if (!h._drag) return;
-        const r = $('stage').getBoundingClientRect();
+        const r = $('pic').getBoundingClientRect();
         e.u = Math.min(1, Math.max(0, (ev.clientX - r.left) / r.width));
         e.v = Math.min(1, Math.max(0, (ev.clientY - r.top) / r.height));
         positionHandles();
@@ -385,7 +389,7 @@
   let lastPtr = null;
   stage.addEventListener('pointermove', (ev) => {
     if (ev.target.classList && ev.target.classList.contains('handle')) return;
-    const r = stage.getBoundingClientRect();
+    const r = $('pic').getBoundingClientRect();
     const u = (ev.clientX - r.left) / r.width, v = (ev.clientY - r.top) / r.height;
     const t = performance.now();
     if (lastPtr) {
@@ -400,8 +404,9 @@
   stage.addEventListener('pointerleave', () => { lastPtr = null; });
   stage.addEventListener('dblclick', (ev) => {
     if (!flags.edit || ev.target.classList.contains('handle')) return;
-    const r = stage.getBoundingClientRect();
-    addSwirl((ev.clientX - r.left) / r.width, (ev.clientY - r.top) / r.height);
+    const r = $('pic').getBoundingClientRect();
+    const c = (x) => Math.min(1, Math.max(0, x));
+    addSwirl(c((ev.clientX - r.left) / r.width), c((ev.clientY - r.top) / r.height));
   });
   window.addEventListener('keydown', (e) => {
     if (e.target.tagName === 'INPUT' && e.target.type === 'text') return;
@@ -462,6 +467,8 @@
   }
 
   // ------------------------------------------------------------------ main loop
+  const ambient = $('ambient'), actx = ambient.getContext('2d');
+  let ambientTick = 0;
   let last = performance.now(), frames = 0, acc = 0;
   function frame(now) {
     requestAnimationFrame(frame);
@@ -471,6 +478,7 @@
     const decay = Math.exp(-dt * 3.0);
     gust.vx *= decay; gust.vy *= decay;
     render();
+    if (++ambientTick % 4 === 0) actx.drawImage(canvas, 0, 0, ambient.width, ambient.height);
     frames++; acc += dt;
     if (acc >= 1) {
       const fps = frames / acc;

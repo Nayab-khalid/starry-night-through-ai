@@ -5,6 +5,14 @@ real time. You can move the swirls, blow the paint with the mouse and change the
 
 Runs in the browser on the graphics card (WebGL 2). Nothing to install.
 
+## Screenshots
+
+![The app](docs/app.jpg)
+
+| Classic | Golden hour |
+|---|---|
+| ![Classic](docs/classic.jpg) | ![Golden hour](docs/golden-hour.jpg) |
+
 ## Run
 
 Double-click `Run Starry Night Live.bat` (or open `index.html`).
