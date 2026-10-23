@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Starry Night</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="stage">
+    <canvas id="gl"></canvas>
+    <div id="handles" hidden></div>
+  </div>
+
+  <aside id="panel">
+    <h1>Starry Night</h1>
+
+    <section class="box">
+      <label class="check"><input type="checkbox" id="chkPause"> Pause</label>
+      <label class="check"><input type="checkbox" id="chkSim"> Simulated sky</label>
+      <label class="check"><input type="checkbox" id="chkEdit"> Edit swirls</label>
+      <div class="buttons"><button id="addSwirl">Add swirl</button></div>
+      <div id="selected" class="selected" hidden></div>
+    </section>
+
+    <div id="sections"></div>
+
+    <div class="buttons footer">
+      <button id="savePng">Save picture</button>
+      <button id="resetAll">Reset</button>
+    </div>
+    <p class="keys">Space pause &middot; E edit &middot; S save &middot; H hide</p>
+  </aside>
+
+  <button id="panelToggle">Controls</button>
+  <div id="toast"></div>
+  <div id="loading">Loading</div>
+  <pre id="fatal" hidden></pre>
+
+  <script src="src/scene_data.js"></script>
+  <script src="src/shaders.js"></script>
+  <script src="src/app.js"></script>
+</body>
+</html>
